@@ -23,22 +23,22 @@ Currently, the API is open for hackathon demonstration. In production, authentic
 
 Initiates a compliance scan on provided code or infrastructure configuration.
 
-**Endpoint**: `/scan`  
-**Method**: `POST`  
+**Endpoint**: `/scan` 
+**Method**: `POST` 
 **Content-Type**: `application/json`
 
 #### Request Body
 
 ```json
 {
-  "code": "string (required) - Source code or configuration to scan",
-  "scan_type": "string (optional) - Scan type: 'gdpr', 'hipaa', 'pci-dss', or 'comprehensive'",
-  "frameworks": ["array (optional) - List of frameworks: ['GDPR', 'HIPAA', 'PCI-DSS']"],
-  "target": "string (optional) - Target identifier",
-  "options": {
-    "include_remediation": "boolean (optional) - Include remediation suggestions",
-    "severity_filter": "string (optional) - Filter by severity: 'critical', 'high', 'medium', 'low'"
-  }
+ "code": "string (required) - Source code or configuration to scan",
+ "scan_type": "string (optional) - Scan type: 'gdpr', 'hipaa', 'pci-dss', or 'comprehensive'",
+ "frameworks": ["array (optional) - List of frameworks: ['GDPR', 'HIPAA', 'PCI-DSS']"],
+ "target": "string (optional) - Target identifier",
+ "options": {
+ "include_remediation": "boolean (optional) - Include remediation suggestions",
+ "severity_filter": "string (optional) - Filter by severity: 'critical', 'high', 'medium', 'low'"
+ }
 }
 ```
 
@@ -46,12 +46,12 @@ Initiates a compliance scan on provided code or infrastructure configuration.
 
 ```json
 {
-  "code": "def process_payment(card_number, cvv):\n    payment = {'card': card_number, 'cvv': cvv}\n    db.save(payment)",
-  "scan_type": "comprehensive",
-  "frameworks": ["GDPR", "HIPAA", "PCI-DSS"],
-  "options": {
-    "include_remediation": true
-  }
+ "code": "def process_payment(card_number, cvv):\n payment = {'card': card_number, 'cvv': cvv}\n db.save(payment)",
+ "scan_type": "comprehensive",
+ "frameworks": ["GDPR", "HIPAA", "PCI-DSS"],
+ "options": {
+ "include_remediation": true
+ }
 }
 ```
 
@@ -61,36 +61,36 @@ Initiates a compliance scan on provided code or infrastructure configuration.
 
 ```json
 {
-  "statusCode": 200,
-  "body": {
-    "scan_id": "scan-20251017-123456",
-    "timestamp": "2025-10-17T12:34:56Z",
-    "status": "completed",
-    "scan_type": "comprehensive",
-    "frameworks": ["GDPR", "HIPAA", "PCI-DSS"],
-    "analysis": {
-      "summary": "AI-generated compliance analysis",
-      "violations": [
-        {
-          "id": "VIO-PCI-001",
-          "framework": "PCI-DSS",
-          "severity": "critical",
-          "type": "card_data_unencrypted",
-          "description": "CVV codes stored in violation of PCI-DSS 3.2",
-          "line": 2,
-          "recommendation": "Remove CVV storage and implement tokenization"
-        }
-      ],
-      "compliance_score": 65,
-      "risk_level": "high"
-    },
-    "recommendations": [
-      "Implement data encryption at rest",
-      "Enable access controls and MFA",
-      "Add audit logging"
-    ],
-    "execution_time": 7.5
-  }
+ "statusCode": 200,
+ "body": {
+ "scan_id": "scan-20251017-123456",
+ "timestamp": "2025-10-17T12:34:56Z",
+ "status": "completed",
+ "scan_type": "comprehensive",
+ "frameworks": ["GDPR", "HIPAA", "PCI-DSS"],
+ "analysis": {
+ "summary": "AI-generated compliance analysis",
+ "violations": [
+ {
+ "id": "VIO-PCI-001",
+ "framework": "PCI-DSS",
+ "severity": "critical",
+ "type": "card_data_unencrypted",
+ "description": "CVV codes stored in violation of PCI-DSS 3.2",
+ "line": 2,
+ "recommendation": "Remove CVV storage and implement tokenization"
+ }
+ ],
+ "compliance_score": 65,
+ "risk_level": "high"
+ },
+ "recommendations": [
+ "Implement data encryption at rest",
+ "Enable access controls and MFA",
+ "Add audit logging"
+ ],
+ "execution_time": 7.5
+ }
 }
 ```
 
@@ -98,11 +98,11 @@ Initiates a compliance scan on provided code or infrastructure configuration.
 
 ```json
 {
-  "statusCode": 400,
-  "body": {
-    "error": "Invalid request",
-    "message": "Missing required field: code"
-  }
+ "statusCode": 400,
+ "body": {
+ "error": "Invalid request",
+ "message": "Missing required field: code"
+ }
 }
 ```
 
@@ -110,11 +110,11 @@ Initiates a compliance scan on provided code or infrastructure configuration.
 
 ```json
 {
-  "statusCode": 500,
-  "body": {
-    "error": "Internal server error",
-    "message": "Failed to process scan request"
-  }
+ "statusCode": 500,
+ "body": {
+ "error": "Internal server error",
+ "message": "Failed to process scan request"
+ }
 }
 ```
 
@@ -163,23 +163,23 @@ url = "https://gluwdyp4ii.execute-api.us-east-1.amazonaws.com/production/scan"
 # Sample code to scan
 code = """
 def process_payment(card_number, cvv, email):
-    # Storing sensitive data - compliance violation
-    payment = {
-        'card': card_number,
-        'cvv': cvv,
-        'email': email
-    }
-    db.save(payment)
+ # Storing sensitive data - compliance violation
+ payment = {
+ 'card': card_number,
+ 'cvv': cvv,
+ 'email': email
+ }
+ db.save(payment)
 """
 
 # Request payload
 payload = {
-    "code": code,
-    "scan_type": "comprehensive",
-    "frameworks": ["GDPR", "HIPAA", "PCI-DSS"],
-    "options": {
-        "include_remediation": True
-    }
+ "code": code,
+ "scan_type": "comprehensive",
+ "frameworks": ["GDPR", "HIPAA", "PCI-DSS"],
+ "options": {
+ "include_remediation": True
+ }
 }
 
 # Make request
@@ -187,27 +187,27 @@ response = requests.post(url, json=payload)
 
 # Parse response
 if response.status_code == 200:
-    result = response.json()
-    print(f"Scan ID: {result['scan_id']}")
-    print(f"Violations: {len(result['analysis']['violations'])}")
-    print(f"Compliance Score: {result['analysis']['compliance_score']}")
+ result = response.json()
+ print(f"Scan ID: {result['scan_id']}")
+ print(f"Violations: {len(result['analysis']['violations'])}")
+ print(f"Compliance Score: {result['analysis']['compliance_score']}")
 else:
-    print(f"Error: {response.status_code}")
-    print(response.text)
+ print(f"Error: {response.status_code}")
+ print(response.text)
 ```
 
 ### cURL
 
 ```bash
 curl -X POST https://gluwdyp4ii.execute-api.us-east-1.amazonaws.com/production/scan \
-  -H "Content-Type: application/json" \
-  -d '{
-    "code": "def get_user(id): return db.query(f\"SELECT * FROM users WHERE id={id}\")",
-    "scan_type": "gdpr",
-    "options": {
-      "include_remediation": true
-    }
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "code": "def get_user(id): return db.query(f\"SELECT * FROM users WHERE id={id}\")",
+ "scan_type": "gdpr",
+ "options": {
+ "include_remediation": true
+ }
+ }'
 ```
 
 ### JavaScript (Node.js)
@@ -218,26 +218,26 @@ const axios = require('axios');
 const url = 'https://gluwdyp4ii.execute-api.us-east-1.amazonaws.com/production/scan';
 
 const payload = {
-  code: `
-    def store_patient_data(patient_id, medical_record):
-        # No encryption - HIPAA violation
-        db.save(patient_id, medical_record)
-  `,
-  scan_type: 'hipaa',
-  options: {
-    include_remediation: true
-  }
+ code: `
+ def store_patient_data(patient_id, medical_record):
+ # No encryption - HIPAA violation
+ db.save(patient_id, medical_record)
+ `,
+ scan_type: 'hipaa',
+ options: {
+ include_remediation: true
+ }
 };
 
 axios.post(url, payload)
-  .then(response => {
-    console.log('Scan ID:', response.data.scan_id);
-    console.log('Violations:', response.data.analysis.violations.length);
-    console.log('Compliance Score:', response.data.analysis.compliance_score);
-  })
-  .catch(error => {
-    console.error('Error:', error.response?.status, error.message);
-  });
+ .then(response => {
+ console.log('Scan ID:', response.data.scan_id);
+ console.log('Violations:', response.data.analysis.violations.length);
+ console.log('Compliance Score:', response.data.analysis.compliance_score);
+ })
+ .catch(error => {
+ console.error('Error:', error.response?.status, error.message);
+ });
 ```
 
 ---
@@ -249,8 +249,8 @@ Scans against all supported compliance frameworks.
 
 ```json
 {
-  "scan_type": "comprehensive",
-  "frameworks": ["GDPR", "HIPAA", "PCI-DSS"]
+ "scan_type": "comprehensive",
+ "frameworks": ["GDPR", "HIPAA", "PCI-DSS"]
 }
 ```
 
@@ -259,7 +259,7 @@ Focuses on data privacy, consent, and data protection.
 
 ```json
 {
-  "scan_type": "gdpr"
+ "scan_type": "gdpr"
 }
 ```
 
@@ -275,7 +275,7 @@ Focuses on healthcare data protection.
 
 ```json
 {
-  "scan_type": "hipaa"
+ "scan_type": "hipaa"
 }
 ```
 
@@ -291,7 +291,7 @@ Focuses on payment card data security.
 
 ```json
 {
-  "scan_type": "pci-dss"
+ "scan_type": "pci-dss"
 }
 ```
 
@@ -335,15 +335,15 @@ Always implement proper error handling:
 
 ```python
 try:
-    response = requests.post(url, json=payload, timeout=30)
-    response.raise_for_status()
-    result = response.json()
+ response = requests.post(url, json=payload, timeout=30)
+ response.raise_for_status()
+ result = response.json()
 except requests.exceptions.Timeout:
-    print("Request timed out")
+ print("Request timed out")
 except requests.exceptions.HTTPError as e:
-    print(f"HTTP error: {e}")
+ print(f"HTTP error: {e}")
 except Exception as e:
-    print(f"Error: {e}")
+ print(f"Error: {e}")
 ```
 
 ### 2. Pagination
@@ -352,9 +352,9 @@ For large codebases, split into multiple requests:
 
 ```python
 def scan_files(files, batch_size=10):
-    for i in range(0, len(files), batch_size):
-        batch = files[i:i+batch_size]
-        # Process batch
+ for i in range(0, len(files), batch_size):
+ batch = files[i:i+batch_size]
+ # Process batch
 ```
 
 ### 3. Caching
@@ -365,12 +365,12 @@ Cache scan results for unchanged code:
 import hashlib
 
 def get_code_hash(code):
-    return hashlib.sha256(code.encode()).hexdigest()
+ return hashlib.sha256(code.encode()).hexdigest()
 
 # Check cache before scanning
 code_hash = get_code_hash(code)
 if code_hash in cache:
-    return cache[code_hash]
+ return cache[code_hash]
 ```
 
 ### 4. Asynchronous Requests
@@ -382,13 +382,13 @@ import asyncio
 import aiohttp
 
 async def scan_async(session, code):
-    async with session.post(url, json={"code": code}) as response:
-        return await response.json()
+ async with session.post(url, json={"code": code}) as response:
+ return await response.json()
 
 async def scan_multiple(codes):
-    async with aiohttp.ClientSession() as session:
-        tasks = [scan_async(session, code) for code in codes]
-        return await asyncio.gather(*tasks)
+ async with aiohttp.ClientSession() as session:
+ tasks = [scan_async(session, code) for code in codes]
+ return await asyncio.gather(*tasks)
 ```
 
 ---
@@ -399,10 +399,10 @@ async def scan_multiple(codes):
 
 ```json
 {
-  "code": "...",
-  "scan_type": "comprehensive",
-  "webhook_url": "https://your-app.com/webhook",
-  "webhook_secret": "your-secret-key"
+ "code": "...",
+ "scan_type": "comprehensive",
+ "webhook_url": "https://your-app.com/webhook",
+ "webhook_secret": "your-secret-key"
 }
 ```
 

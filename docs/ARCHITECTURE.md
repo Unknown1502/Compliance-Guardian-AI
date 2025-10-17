@@ -10,68 +10,68 @@ Compliance Guardian AI is a cloud-native, AI-powered compliance monitoring syste
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         CLIENT LAYER                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐       │
-│  │   CLI    │  │ Web App  │  │   API    │  │   SDK    │       │
-│  │  Tool    │  │Dashboard │  │ Clients  │  │Libraries │       │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘       │
+│ CLIENT LAYER │
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+│ │ CLI │ │ Web App │ │ API │ │ SDK │ │
+│ │ Tool │ │Dashboard │ │ Clients │ │Libraries │ │
+│ └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘ │
 └───────┼─────────────┼─────────────┼─────────────┼──────────────┘
-        │             │             │             │
-        └─────────────┴─────────────┴─────────────┘
-                       │
-                       ▼
+ │ │ │ │
+ └─────────────┴─────────────┴─────────────┘
+ │
+ ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      API GATEWAY LAYER                           │
-│  ┌────────────────────────────────────────────────────────┐    │
-│  │  Amazon API Gateway (REST API)                          │    │
-│  │  - Request Validation                                   │    │
-│  │  - Rate Limiting                                        │    │
-│  │  - CloudWatch Logging                                   │    │
-│  └─────────────────────┬──────────────────────────────────┘    │
+│ API GATEWAY LAYER │
+│ ┌────────────────────────────────────────────────────────┐ │
+│ │ Amazon API Gateway (REST API) │ │
+│ │ - Request Validation │ │
+│ │ - Rate Limiting │ │
+│ │ - CloudWatch Logging │ │
+│ └─────────────────────┬──────────────────────────────────┘ │
 └────────────────────────┼───────────────────────────────────────┘
-                         │
-                         ▼
+ │
+ ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                     COMPUTE LAYER (AWS Lambda)                   │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
-│  │Scan Handler  │  │Policy Engine │  │Report Gen    │         │
-│  │Lambda        │  │Lambda        │  │Lambda        │         │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘         │
-│         │                  │                  │                  │
-│  ┌──────┴───────┐  ┌──────┴───────┐  ┌──────┴───────┐         │
-│  │Remediation   │  │Risk Assessment│  │Metrics       │         │
-│  │Lambda        │  │Lambda        │  │Lambda        │         │
-│  └──────────────┘  └──────────────┘  └──────────────┘         │
+│ COMPUTE LAYER (AWS Lambda) │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │
+│ │Scan Handler │ │Policy Engine │ │Report Gen │ │
+│ │Lambda │ │Lambda │ │Lambda │ │
+│ └──────┬───────┘ └──────┬───────┘ └──────┬───────┘ │
+│ │ │ │ │
+│ ┌──────┴───────┐ ┌──────┴───────┐ ┌──────┴───────┐ │
+│ │Remediation │ │Risk Assessment│ │Metrics │ │
+│ │Lambda │ │Lambda │ │Lambda │ │
+│ └──────────────┘ └──────────────┘ └──────────────┘ │
 └────────────────────────┬────────────────────────────────────────┘
-                         │
-                         ▼
+ │
+ ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      AI/ML LAYER (Amazon Bedrock)                │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │  Amazon Bedrock Foundation Models                        │   │
-│  │  ┌────────────────┐        ┌──────────────────┐        │   │
-│  │  │ Amazon Nova    │        │ Claude 3.5       │        │   │
-│  │  │ Pro v1         │───────▶│ Sonnet v2        │        │   │
-│  │  │ (Primary)      │ Fallback│ (Secondary)     │        │   │
-│  │  └────────────────┘        └──────────────────┘        │   │
-│  │                                                           │   │
-│  │  • Code Analysis            • Violation Detection        │   │
-│  │  • Pattern Recognition      • Remediation Generation     │   │
-│  │  • Risk Assessment          • Report Synthesis           │   │
-│  └─────────────────────────────────────────────────────────┘   │
+│ AI/ML LAYER (Amazon Bedrock) │
+│ ┌─────────────────────────────────────────────────────────┐ │
+│ │ Amazon Bedrock Foundation Models │ │
+│ │ ┌────────────────┐ ┌──────────────────┐ │ │
+│ │ │ Amazon Nova │ │ Claude 3.5 │ │ │
+│ │ │ Pro v1 │───────▶│ Sonnet v2 │ │ │
+│ │ │ (Primary) │ Fallback│ (Secondary) │ │ │
+│ │ └────────────────┘ └──────────────────┘ │ │
+│ │ │ │
+│ │ • Code Analysis • Violation Detection │ │
+│ │ • Pattern Recognition • Remediation Generation │ │
+│ │ • Risk Assessment • Report Synthesis │ │
+│ └─────────────────────────────────────────────────────────┘ │
 └────────────────────────┬────────────────────────────────────────┘
-                         │
-                         ▼
+ │
+ ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                       STORAGE LAYER                              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
-│  │  DynamoDB    │  │  S3 Buckets  │  │ CloudWatch   │         │
-│  │  Tables      │  │              │  │  Logs        │         │
-│  │  • Scans     │  │  • Reports   │  │              │         │
-│  │  • Policies  │  │  • Policies  │  │              │         │
-│  │  • Violations│  │  • Evidence  │  │              │         │
-│  │  • Metrics   │  │              │  │              │         │
-│  └──────────────┘  └──────────────┘  └──────────────┘         │
+│ STORAGE LAYER │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │
+│ │ DynamoDB │ │ S3 Buckets │ │ CloudWatch │ │
+│ │ Tables │ │ │ │ Logs │ │
+│ │ • Scans │ │ • Reports │ │ │ │
+│ │ • Policies │ │ • Policies │ │ │ │
+│ │ • Violations│ │ • Evidence │ │ │ │
+│ │ • Metrics │ │ │ │ │ │
+│ └──────────────┘ └──────────────┘ └──────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -94,14 +94,14 @@ Compliance Guardian AI is a cloud-native, AI-powered compliance monitoring syste
 **Configuration**:
 ```json
 {
-  "name": "compliance-guardian-api",
-  "protocol": "REST",
-  "endpoint": "https://gluwdyp4ii.execute-api.us-east-1.amazonaws.com/production",
-  "authentication": "AWS_IAM",
-  "throttling": {
-    "rate": 10000,
-    "burst": 5000
-  }
+ "name": "compliance-guardian-api",
+ "protocol": "REST",
+ "endpoint": "https://gluwdyp4ii.execute-api.us-east-1.amazonaws.com/production",
+ "authentication": "AWS_IAM",
+ "throttling": {
+ "rate": 10000,
+ "burst": 5000
+ }
 }
 ```
 
@@ -113,8 +113,8 @@ Compliance Guardian AI is a cloud-native, AI-powered compliance monitoring syste
 
 **Purpose**: Orchestrates compliance scans.
 
-**Runtime**: Python 3.11  
-**Memory**: 2048 MB  
+**Runtime**: Python 3.11 
+**Memory**: 2048 MB 
 **Timeout**: 300 seconds
 
 **Responsibilities**:
@@ -128,26 +128,26 @@ Compliance Guardian AI is a cloud-native, AI-powered compliance monitoring syste
 **Code Flow**:
 ```python
 def lambda_handler(event, context):
-    # 1. Parse request
-    request = parse_request(event)
-    
-    # 2. Load policies
-    policies = load_policies(request.frameworks)
-    
-    # 3. AI Analysis
-    analysis = bedrock_analyze(request.code, policies)
-    
-    # 4. Detect violations
-    violations = detect_violations(analysis, policies)
-    
-    # 5. Calculate score
-    score = calculate_compliance_score(violations)
-    
-    # 6. Store results
-    store_scan_results(violations, score)
-    
-    # 7. Return response
-    return format_response(violations, score)
+ # 1. Parse request
+ request = parse_request(event)
+
+ # 2. Load policies
+ policies = load_policies(request.frameworks)
+
+ # 3. AI Analysis
+ analysis = bedrock_analyze(request.code, policies)
+
+ # 4. Detect violations
+ violations = detect_violations(analysis, policies)
+
+ # 5. Calculate score
+ score = calculate_compliance_score(violations)
+
+ # 6. Store results
+ store_scan_results(violations, score)
+
+ # 7. Return response
+ return format_response(violations, score)
 ```
 
 #### 2.2 Policy Engine Lambda
@@ -216,10 +216,10 @@ def lambda_handler(event, context):
 **Configuration**:
 ```json
 {
-  "modelId": "us.amazon.nova-pro-v1:0",
-  "temperature": 0.1,
-  "maxTokens": 4096,
-  "topP": 0.9
+ "modelId": "us.amazon.nova-pro-v1:0",
+ "temperature": 0.1,
+ "maxTokens": 4096,
+ "topP": 0.9
 }
 ```
 
@@ -326,37 +326,37 @@ Identify:
 
 ```
 1. Client → API Gateway
-   - HTTP POST /scan
-   - JSON payload with code and scan_type
+ - HTTP POST /scan
+ - JSON payload with code and scan_type
 
 2. API Gateway → Scan Handler Lambda
-   - Validates request
-   - Routes to Lambda
+ - Validates request
+ - Routes to Lambda
 
 3. Scan Handler → DynamoDB
-   - Loads compliance policies
-   - Retrieves historical data
+ - Loads compliance policies
+ - Retrieves historical data
 
 4. Scan Handler → Amazon Bedrock
-   - Sends code + policies
-   - Requests AI analysis
+ - Sends code + policies
+ - Requests AI analysis
 
 5. Bedrock → Scan Handler
-   - Returns violations
-   - Provides recommendations
+ - Returns violations
+ - Provides recommendations
 
 6. Scan Handler → DynamoDB
-   - Stores scan results
-   - Updates metrics
+ - Stores scan results
+ - Updates metrics
 
 7. Scan Handler → S3
-   - Saves full report
+ - Saves full report
 
 8. Scan Handler → API Gateway
-   - Returns JSON response
+ - Returns JSON response
 
 9. API Gateway → Client
-   - HTTP 200 + results
+ - HTTP 200 + results
 ```
 
 ---
@@ -373,19 +373,19 @@ Identify:
 **Policies**:
 ```json
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "bedrock:InvokeModel",
-        "dynamodb:PutItem",
-        "dynamodb:GetItem",
-        "s3:PutObject"
-      ],
-      "Resource": "*"
-    }
-  ]
+ "Version": "2012-10-17",
+ "Statement": [
+ {
+ "Effect": "Allow",
+ "Action": [
+ "bedrock:InvokeModel",
+ "dynamodb:PutItem",
+ "dynamodb:GetItem",
+ "s3:PutObject"
+ ],
+ "Resource": "*"
+ }
+ ]
 }
 ```
 
@@ -452,16 +452,16 @@ Identify:
 
 ```python
 {
-  "ErrorRate": {
-    "threshold": 5,
-    "period": 300,
-    "evaluation_periods": 2
-  },
-  "HighLatency": {
-    "threshold": 10000,
-    "period": 60,
-    "evaluation_periods": 3
-  }
+ "ErrorRate": {
+ "threshold": 5,
+ "period": 300,
+ "evaluation_periods": 2
+ },
+ "HighLatency": {
+ "threshold": 10000,
+ "period": 60,
+ "evaluation_periods": 3
+ }
 }
 ```
 
@@ -473,23 +473,23 @@ Identify:
 
 ```
 ┌─────────────────────────────────────────────┐
-│           Route 53 (DNS)                    │
-│     compliance-guardian.ai                  │
+│ Route 53 (DNS) │
+│ compliance-guardian.ai │
 └─────────────┬───────────────────────────────┘
-              │
-       ┌──────┴──────┐
-       │             │
-       ▼             ▼
-┌────────────┐  ┌────────────┐
-│ us-east-1  │  │ eu-west-1  │
-│  (Primary) │  │ (Secondary)│
-│            │  │            │
-│  API GW    │  │  API GW    │
-│  Lambda    │  │  Lambda    │
-│  DynamoDB  │  │  DynamoDB  │
-│  Global    │  │  Global    │
-│  Tables    │  │  Tables    │
-└────────────┘  └────────────┘
+ │
+ ┌──────┴──────┐
+ │ │
+ ▼ ▼
+┌────────────┐ ┌────────────┐
+│ us-east-1 │ │ eu-west-1 │
+│ (Primary) │ │ (Secondary)│
+│ │ │ │
+│ API GW │ │ API GW │
+│ Lambda │ │ Lambda │
+│ DynamoDB │ │ DynamoDB │
+│ Global │ │ Global │
+│ Tables │ │ Tables │
+└────────────┘ └────────────┘
 ```
 
 ---
@@ -521,7 +521,7 @@ Identify:
 - S3: Versioning + cross-region replication
 - Lambda: Infrastructure as Code (CloudFormation)
 
-**RTO (Recovery Time Objective)**: 1 hour  
+**RTO (Recovery Time Objective)**: 1 hour 
 **RPO (Recovery Point Objective)**: 5 minutes
 
 ---

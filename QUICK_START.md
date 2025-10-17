@@ -6,8 +6,8 @@
 [OK] **Must Have:**
 - AWS account with credit card
 - **Amazon Bedrock access to:**
-  - Claude 3.5 Sonnet v2
-  - Amazon Nova Act
+ - Claude 3.5 Sonnet v2
+ - Amazon Nova Act
 - IAM user with admin permissions
 
 [WARNING] **Enable Bedrock:**
@@ -53,8 +53,8 @@ Creates: S3 buckets, DynamoDB tables, IAM roles, KMS keys
 cp .env.example .env
 
 # Edit .env with your AWS credentials
-notepad .env  # Windows
-nano .env     # Mac/Linux
+notepad .env # Windows
+nano .env # Mac/Linux
 ```
 
 **Required fields:**

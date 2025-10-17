@@ -20,10 +20,10 @@ This document provides detailed information about the three compliance framework
 
 ### Overview
 
-**Full Name**: General Data Protection Regulation  
-**Jurisdiction**: European Union  
-**Effective Date**: May 25, 2018  
-**Scope**: Any organization processing EU citizen data  
+**Full Name**: General Data Protection Regulation 
+**Jurisdiction**: European Union 
+**Effective Date**: May 25, 2018 
+**Scope**: Any organization processing EU citizen data 
 **Maximum Fines**: €20 million or 4% of annual global turnover
 
 ### Key Principles
@@ -88,40 +88,40 @@ This document provides detailed information about the three compliance framework
 
 #### Encryption
 ```python
-# ✅ GDPR Compliant
+# [[]] GDPR Compliant
 from cryptography.fernet import Fernet
 
 def store_pii(email, name):
-    cipher = Fernet(key)
-    encrypted_email = cipher.encrypt(email.encode())
-    encrypted_name = cipher.encrypt(name.encode())
-    db.save(encrypted_email, encrypted_name)
+ cipher = Fernet(key)
+ encrypted_email = cipher.encrypt(email.encode())
+ encrypted_name = cipher.encrypt(name.encode())
+ db.save(encrypted_email, encrypted_name)
 ```
 
 #### Consent Management
 ```python
-# ✅ GDPR Compliant
+# [[]] GDPR Compliant
 def collect_email(email, consent):
-    if not consent:
-        raise ValueError("Consent required for email processing")
-    
-    if consent.marketing:
-        subscribe_newsletter(email)
-    
-    log_consent(email, consent, timestamp=now())
+ if not consent:
+ raise ValueError("Consent required for email processing")
+
+ if consent.marketing:
+ subscribe_newsletter(email)
+
+ log_consent(email, consent, timestamp=now())
 ```
 
 #### Data Deletion
 ```python
-# ✅ GDPR Compliant
+# [[]] GDPR Compliant
 def delete_user_data(user_id):
-    # Delete from all systems
-    db.delete_user(user_id)
-    cache.delete_user(user_id)
-    analytics.anonymize_user(user_id)
-    backups.mark_for_deletion(user_id)
-    
-    log_deletion(user_id, timestamp=now())
+ # Delete from all systems
+ db.delete_user(user_id)
+ cache.delete_user(user_id)
+ analytics.anonymize_user(user_id)
+ backups.mark_for_deletion(user_id)
+
+ log_deletion(user_id, timestamp=now())
 ```
 
 ### Common GDPR Violations
@@ -154,10 +154,10 @@ def delete_user_data(user_id):
 
 ### Overview
 
-**Full Name**: Health Insurance Portability and Accountability Act  
-**Jurisdiction**: United States  
-**Effective Date**: April 14, 2003  
-**Scope**: Healthcare providers, health plans, healthcare clearinghouses  
+**Full Name**: Health Insurance Portability and Accountability Act 
+**Jurisdiction**: United States 
+**Effective Date**: April 14, 2003 
+**Scope**: Healthcare providers, health plans, healthcare clearinghouses 
 **Maximum Fines**: $50,000 per violation, up to $1.5 million per year
 
 ### Protected Health Information (PHI)
@@ -205,65 +205,65 @@ def delete_user_data(user_id):
 
 #### 1. Access Control
 ```python
-# ✅ HIPAA Compliant
+# [[]] HIPAA Compliant
 @require_authentication
 @require_role(['doctor', 'nurse', 'admin'])
 @audit_log
 def get_patient_record(patient_id):
-    if not has_patient_access(current_user, patient_id):
-        raise PermissionDenied("Not authorized to access this patient")
-    
-    return db.get_patient(patient_id)
+ if not has_patient_access(current_user, patient_id):
+ raise PermissionDenied("Not authorized to access this patient")
+
+ return db.get_patient(patient_id)
 ```
 
 #### 2. Encryption
 ```python
-# ✅ HIPAA Compliant
+# [[]] HIPAA Compliant
 def store_patient_data(patient_data):
-    # Encrypt PHI
-    encrypted_data = encrypt_aes256(patient_data)
-    
-    # Store encrypted
-    db.save(encrypted_data)
-    
-    # Audit log
-    audit.log(f"Stored PHI for patient {patient_data['id']}")
+ # Encrypt PHI
+ encrypted_data = encrypt_aes256(patient_data)
+
+ # Store encrypted
+ db.save(encrypted_data)
+
+ # Audit log
+ audit.log(f"Stored PHI for patient {patient_data['id']}")
 ```
 
 #### 3. Audit Logging
 ```python
-# ✅ HIPAA Compliant
+# [[]] HIPAA Compliant
 def access_phi(user_id, patient_id, action):
-    # Log every access
-    audit_log.record({
-        'timestamp': now(),
-        'user_id': user_id,
-        'patient_id': patient_id,
-        'action': action,
-        'ip_address': get_client_ip(),
-        'session_id': get_session_id()
-    })
-    
-    # Keep logs for 6 years (HIPAA requirement)
+ # Log every access
+ audit_log.record({
+ 'timestamp': now(),
+ 'user_id': user_id,
+ 'patient_id': patient_id,
+ 'action': action,
+ 'ip_address': get_client_ip(),
+ 'session_id': get_session_id()
+ })
+
+ # Keep logs for 6 years (HIPAA requirement)
 ```
 
 #### 4. Multi-Factor Authentication
 ```python
-# ✅ HIPAA Compliant
+# [[]] HIPAA Compliant
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
-    
-    # First factor: Password
-    if not verify_password(username, password):
-        return "Invalid credentials", 401
-    
-    # Second factor: MFA code
-    if not verify_mfa_code(username, request.form['mfa_code']):
-        return "Invalid MFA code", 401
-    
-    return create_session(username)
+ username = request.form['username']
+ password = request.form['password']
+
+ # First factor: Password
+ if not verify_password(username, password):
+ return "Invalid credentials", 401
+
+ # Second factor: MFA code
+ if not verify_mfa_code(username, request.form['mfa_code']):
+ return "Invalid MFA code", 401
+
+ return create_session(username)
 ```
 
 ### Common HIPAA Violations
@@ -298,10 +298,10 @@ def login():
 
 ### Overview
 
-**Full Name**: Payment Card Industry Data Security Standard  
-**Jurisdiction**: Global (all payment card transactions)  
-**Version**: PCI-DSS 4.0 (March 2022)  
-**Scope**: Any organization storing, processing, or transmitting cardholder data  
+**Full Name**: Payment Card Industry Data Security Standard 
+**Jurisdiction**: Global (all payment card transactions) 
+**Version**: PCI-DSS 4.0 (March 2022) 
+**Scope**: Any organization storing, processing, or transmitting cardholder data 
 **Maximum Fines**: $5,000-$100,000 per month + loss of card processing privileges
 
 ### Cardholder Data
@@ -390,76 +390,76 @@ def login():
 #### Encryption Requirements
 
 ```python
-# ✅ PCI-DSS Compliant
+# [[]] PCI-DSS Compliant
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 def store_card_data(pan, cardholder_name, exp_date):
-    # Encrypt PAN with AES-256
-    encrypted_pan = encrypt_aes256(pan)
-    
-    # Store encrypted PAN + plain name/exp
-    db.save({
-        'pan': encrypted_pan,  # Encrypted
-        'name': cardholder_name,  # Plain text OK
-        'exp': exp_date  # Plain text OK
-    })
-    
-    # ❌ NEVER store CVV
-    # cvv = "123"  # VIOLATION
+ # Encrypt PAN with AES-256
+ encrypted_pan = encrypt_aes256(pan)
+
+ # Store encrypted PAN + plain name/exp
+ db.save({
+ 'pan': encrypted_pan, # Encrypted
+ 'name': cardholder_name, # Plain text OK
+ 'exp': exp_date # Plain text OK
+ })
+
+ # [] NEVER store CVV
+ # cvv = "123" # VIOLATION
 ```
 
 #### CVV Storage Prohibition
 
 ```python
-# ❌ PCI-DSS VIOLATION
+# [] PCI-DSS VIOLATION
 def process_payment_wrong(card_number, cvv, exp_date):
-    payment = {
-        'card': card_number,
-        'cvv': cvv,  # ❌ NEVER STORE CVV
-        'exp': exp_date
-    }
-    db.save(payment)  # VIOLATION
+ payment = {
+ 'card': card_number,
+ 'cvv': cvv, # [] NEVER STORE CVV
+ 'exp': exp_date
+ }
+ db.save(payment) # VIOLATION
 
-# ✅ PCI-DSS Compliant
+# [[]] PCI-DSS Compliant
 def process_payment_correct(card_number, cvv, exp_date):
-    # Use CVV only for authorization
-    auth_response = payment_gateway.authorize({
-        'card': card_number,
-        'cvv': cvv,  # Used once, not stored
-        'exp': exp_date
-    })
-    
-    # Store only token
-    db.save({
-        'token': auth_response.token,
-        'last4': card_number[-4:],
-        'exp': exp_date
-    })
+ # Use CVV only for authorization
+ auth_response = payment_gateway.authorize({
+ 'card': card_number,
+ 'cvv': cvv, # Used once, not stored
+ 'exp': exp_date
+ })
+
+ # Store only token
+ db.save({
+ 'token': auth_response.token,
+ 'last4': card_number[-4:],
+ 'exp': exp_date
+ })
 ```
 
 #### Tokenization
 
 ```python
-# ✅ PCI-DSS Compliant (Recommended)
+# [[]] PCI-DSS Compliant (Recommended)
 def tokenize_card(card_number, cvv, exp_date):
-    # Send to payment gateway for tokenization
-    response = stripe.Token.create(
-        card={
-            'number': card_number,
-            'exp_month': exp_date.month,
-            'exp_year': exp_date.year,
-            'cvc': cvv
-        }
-    )
-    
-    # Store only token (no PAN, no CVV)
-    db.save({
-        'token': response.id,
-        'last4': response.card.last4,
-        'brand': response.card.brand
-    })
-    
-    return response.id
+ # Send to payment gateway for tokenization
+ response = stripe.Token.create(
+ card={
+ 'number': card_number,
+ 'exp_month': exp_date.month,
+ 'exp_year': exp_date.year,
+ 'cvc': cvv
+ }
+ )
+
+ # Store only token (no PAN, no CVV)
+ db.save({
+ 'token': response.id,
+ 'last4': response.card.last4,
+ 'brand': response.card.brand
+ })
+
+ return response.id
 ```
 
 ### Common PCI-DSS Violations
@@ -532,26 +532,26 @@ def tokenize_card(card_number, cvv, exp_date):
 ### Overlap Between Frameworks
 
 ```
-         ┌─────────────────────────────────────┐
-         │                                     │
-         │              GDPR                   │
-         │                                     │
-         │     ┌──────────────────────┐       │
-         │     │                      │       │
-    ┌────┼─────┤     HIPAA            │       │
-    │    │     │                      │       │
-    │    │     │    ┌──────────┐      │       │
-    │    │     └────┤          │──────┘       │
-    │    │          │ PCI-DSS  │              │
-    │    └──────────┤          │──────────────┘
-    │               └──────────┘
-    │
-    └─ Common Requirements:
-       • Encryption
-       • Access Controls
-       • Audit Logging
-       • Breach Notification
-       • Security Training
+ ┌─────────────────────────────────────┐
+ │ │
+ │ GDPR │
+ │ │
+ │ ┌──────────────────────┐ │
+ │ │ │ │
+ ┌────┼─────┤ HIPAA │ │
+ │ │ │ │ │
+ │ │ │ ┌──────────┐ │ │
+ │ │ └────┤ │──────┘ │
+ │ │ │ PCI-DSS │ │
+ │ └──────────┤ │──────────────┘
+ │ └──────────┘
+ │
+ └─ Common Requirements:
+ • Encryption
+ • Access Controls
+ • Audit Logging
+ • Breach Notification
+ • Security Training
 ```
 
 ### Multi-Framework Violations
@@ -560,13 +560,13 @@ Some violations affect multiple frameworks:
 
 | Violation | GDPR | HIPAA | PCI-DSS |
 |-----------|------|-------|---------|
-| No encryption | ✓ | ✓ | ✓ |
-| Weak access controls | ✓ | ✓ | ✓ |
-| Missing audit logs | ✓ | ✓ | ✓ |
-| No MFA | - | ✓ | ✓ |
-| No data deletion | ✓ | - | - |
-| CVV storage | - | - | ✓ |
-| No consent | ✓ | - | - |
+| No encryption | [] | [] | [] |
+| Weak access controls | [] | [] | [] |
+| Missing audit logs | [] | [] | [] |
+| No MFA | - | [] | [] |
+| No data deletion | [] | - | - |
+| CVV storage | - | - | [] |
+| No consent | [] | - | - |
 
 ---
 
@@ -575,35 +575,35 @@ Some violations affect multiple frameworks:
 ### 1. Encryption Everywhere
 
 ```python
-# ✅ Universal Best Practice
+# [[]] Universal Best Practice
 def store_sensitive_data(data):
-    encrypted = encrypt_aes256(data)
-    db.save(encrypted)
+ encrypted = encrypt_aes256(data)
+ db.save(encrypted)
 ```
 
 ### 2. Access Controls
 
 ```python
-# ✅ Universal Best Practice
+# [[]] Universal Best Practice
 @require_authentication
 @require_authorization
 @audit_log
 def access_sensitive_data(data_id):
-    return db.get(data_id)
+ return db.get(data_id)
 ```
 
 ### 3. Audit Logging
 
 ```python
-# ✅ Universal Best Practice
+# [[]] Universal Best Practice
 def log_access(user, resource, action):
-    audit_log.record({
-        'timestamp': now(),
-        'user': user,
-        'resource': resource,
-        'action': action,
-        'ip': get_client_ip()
-    })
+ audit_log.record({
+ 'timestamp': now(),
+ 'user': user,
+ 'resource': resource,
+ 'action': action,
+ 'ip': get_client_ip()
+ })
 ```
 
 ### 4. Regular Assessments
@@ -626,29 +626,29 @@ def log_access(user, resource, action):
 
 ### GDPR Quick Check
 ```bash
-☐ Encrypt PII
-☐ Obtain consent
-☐ Enable data deletion
-☐ Implement data export
-☐ Define retention periods
+[ ] Encrypt PII
+[ ] Obtain consent
+[ ] Enable data deletion
+[ ] Implement data export
+[ ] Define retention periods
 ```
 
 ### HIPAA Quick Check
 ```bash
-☐ Encrypt PHI
-☐ Implement access controls
-☐ Enable audit logging
-☐ Require MFA
-☐ Sign BAAs
+[ ] Encrypt PHI
+[ ] Implement access controls
+[ ] Enable audit logging
+[ ] Require MFA
+[ ] Sign BAAs
 ```
 
 ### PCI-DSS Quick Check
 ```bash
-☐ NEVER store CVV
-☐ Encrypt PANs
-☐ Use TLS 1.2+
-☐ Segment network
-☐ Conduct vulnerability scans
+[ ] NEVER store CVV
+[ ] Encrypt PANs
+[ ] Use TLS 1.2+
+[ ] Segment network
+[ ] Conduct vulnerability scans
 ```
 
 ---
@@ -673,6 +673,6 @@ def log_access(user, resource, action):
 
 ---
 
-**Stay Compliant! 🛡️**
+**Stay Compliant! **
 
 Remember: Compliance is an ongoing process, not a one-time achievement.

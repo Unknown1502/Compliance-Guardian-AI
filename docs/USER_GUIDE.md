@@ -17,10 +17,10 @@
 ## Introduction
 
 Compliance Guardian AI is an automated compliance monitoring system that helps you:
-- 🔍 **Scan code** for regulatory compliance violations
-- 🛡️ **Detect risks** across GDPR, HIPAA, and PCI-DSS frameworks
-- 🤖 **Get AI-powered** remediation suggestions
-- 📊 **Generate reports** for audit and compliance tracking
+- **Scan code** for regulatory compliance violations
+- **Detect risks** across GDPR, HIPAA, and PCI-DSS frameworks
+- **Get AI-powered** remediation suggestions
+- **Generate reports** for audit and compliance tracking
 
 ### Who Should Use This Tool?
 
@@ -87,10 +87,10 @@ python demo.py
 ```
 
 **Demo Features**:
-- ✅ Pre-configured sample code
-- ✅ All frameworks included
-- ✅ Step-by-step explanations
-- ✅ Automatic report generation
+- [[]] Pre-configured sample code
+- [[]] All frameworks included
+- [[]] Step-by-step explanations
+- [[]] Automatic report generation
 
 **Demo Flow**:
 1. Welcome screen with project information
@@ -134,13 +134,13 @@ import requests
 url = "https://gluwdyp4ii.execute-api.us-east-1.amazonaws.com/production/scan"
 
 payload = {
-    "code": """
-    def process_payment(card_number, cvv):
-        payment = {'card': card_number, 'cvv': cvv}
-        db.save(payment)
-    """,
-    "scan_type": "comprehensive",
-    "frameworks": ["GDPR", "HIPAA", "PCI-DSS"]
+ "code": """
+ def process_payment(card_number, cvv):
+ payment = {'card': card_number, 'cvv': cvv}
+ db.save(payment)
+ """,
+ "scan_type": "comprehensive",
+ "frameworks": ["GDPR", "HIPAA", "PCI-DSS"]
 }
 
 response = requests.post(url, json=payload)
@@ -176,19 +176,19 @@ python examples/automated_remediation.py
 
 ```json
 {
-  "scan_id": "scan-20251017-123456",
-  "timestamp": "2025-10-17T12:34:56Z",
-  "status": "completed",
-  "scan_type": "comprehensive",
-  "frameworks": ["GDPR", "HIPAA", "PCI-DSS"],
-  "analysis": {
-    "summary": "AI-generated analysis",
-    "violations": [...],
-    "compliance_score": 65,
-    "risk_level": "high"
-  },
-  "recommendations": [...],
-  "execution_time": 7.5
+ "scan_id": "scan-20251017-123456",
+ "timestamp": "2025-10-17T12:34:56Z",
+ "status": "completed",
+ "scan_type": "comprehensive",
+ "frameworks": ["GDPR", "HIPAA", "PCI-DSS"],
+ "analysis": {
+ "summary": "AI-generated analysis",
+ "violations": [...],
+ "compliance_score": 65,
+ "risk_level": "high"
+ },
+ "recommendations": [...],
+ "execution_time": 7.5
 }
 ```
 
@@ -204,25 +204,25 @@ python examples/automated_remediation.py
 
 ### Severity Levels
 
-**🔴 Critical**
+**[CRITICAL] Critical**
 - Immediate risk of data breach
 - Direct regulatory violation
 - Potential for significant fines
 - **Example**: CVV storage, unencrypted PII
 
-**🟠 High**
+**[HIGH] High**
 - Significant compliance gap
 - Potential for exploitation
 - Could lead to audit failure
 - **Example**: Missing encryption, weak access controls
 
-**🟡 Medium**
+**[MEDIUM] Medium**
 - Moderate compliance issue
 - Should be addressed soon
 - May escalate if ignored
 - **Example**: Incomplete logging, missing MFA
 
-**🟢 Low**
+**[LOW] Low**
 - Minor compliance gap
 - Low immediate risk
 - Best practice recommendation
@@ -274,19 +274,19 @@ python examples/automated_remediation.py
 - **Integrity**: Ensure data security
 
 **What the Scanner Checks**:
-- ✅ PII encryption (email, name, address, phone)
-- ✅ Consent mechanisms
-- ✅ Data retention policies
-- ✅ Right to erasure implementation
-- ✅ Data portability capabilities
-- ✅ Breach notification procedures
+- [[]] PII encryption (email, name, address, phone)
+- [[]] Consent mechanisms
+- [[]] Data retention policies
+- [[]] Right to erasure implementation
+- [[]] Data portability capabilities
+- [[]] Breach notification procedures
 
 **Example Scan**:
 ```python
 payload = {
-    "code": code_sample,
-    "scan_type": "gdpr",
-    "frameworks": ["GDPR"]
+ "code": code_sample,
+ "scan_type": "gdpr",
+ "frameworks": ["GDPR"]
 }
 ```
 
@@ -301,19 +301,19 @@ payload = {
 - Patient identifiers
 
 **What the Scanner Checks**:
-- ✅ PHI encryption at rest and in transit
-- ✅ Access controls and authentication
-- ✅ Audit logging of PHI access
-- ✅ Multi-factor authentication
-- ✅ Data backup procedures
-- ✅ Breach notification compliance
+- [[]] PHI encryption at rest and in transit
+- [[]] Access controls and authentication
+- [[]] Audit logging of PHI access
+- [[]] Multi-factor authentication
+- [[]] Data backup procedures
+- [[]] Breach notification compliance
 
 **Example Scan**:
 ```python
 payload = {
-    "code": healthcare_code,
-    "scan_type": "hipaa",
-    "frameworks": ["HIPAA"]
+ "code": healthcare_code,
+ "scan_type": "hipaa",
+ "frameworks": ["HIPAA"]
 }
 ```
 
@@ -328,19 +328,19 @@ payload = {
 - **NEVER**: CVV/CVC (prohibited from storage)
 
 **What the Scanner Checks**:
-- ✅ Card data encryption
-- ✅ CVV storage prohibition compliance
-- ✅ Network security controls
-- ✅ Access control mechanisms
-- ✅ Vulnerability management
-- ✅ Security monitoring and testing
+- [[]] Card data encryption
+- [[]] CVV storage prohibition compliance
+- [[]] Network security controls
+- [[]] Access control mechanisms
+- [[]] Vulnerability management
+- [[]] Security monitoring and testing
 
 **Example Scan**:
 ```python
 payload = {
-    "code": payment_code,
-    "scan_type": "pci-dss",
-    "frameworks": ["PCI-DSS"]
+ "code": payment_code,
+ "scan_type": "pci-dss",
+ "frameworks": ["PCI-DSS"]
 }
 ```
 
@@ -350,9 +350,9 @@ Scans against **all frameworks** simultaneously:
 
 ```python
 payload = {
-    "code": code_sample,
-    "scan_type": "comprehensive",
-    "frameworks": ["GDPR", "HIPAA", "PCI-DSS"]
+ "code": code_sample,
+ "scan_type": "comprehensive",
+ "frameworks": ["GDPR", "HIPAA", "PCI-DSS"]
 }
 ```
 
@@ -384,12 +384,12 @@ Each violation includes:
 **Example Violation**:
 ```json
 {
-  "severity": "critical",
-  "framework": "PCI-DSS",
-  "type": "cvv_stored",
-  "description": "CVV codes are stored in violation of PCI-DSS Requirement 3.2",
-  "line": 3,
-  "recommendation": "Remove CVV storage completely. Use tokenization for recurring payments."
+ "severity": "critical",
+ "framework": "PCI-DSS",
+ "type": "cvv_stored",
+ "description": "CVV codes are stored in violation of PCI-DSS Requirement 3.2",
+ "line": 3,
+ "recommendation": "Remove CVV storage completely. Use tokenization for recurring payments."
 }
 ```
 
@@ -397,74 +397,74 @@ Each violation includes:
 
 #### Example 1: CVV Storage (PCI-DSS)
 
-**Before** (❌ Violates PCI-DSS):
+**Before** ([] Violates PCI-DSS):
 ```python
 def process_payment(card_number, cvv, exp_date):
-    payment = {
-        'card': card_number,
-        'cvv': cvv,  # ❌ NEVER store CVV
-        'exp': exp_date
-    }
-    db.save(payment)
+ payment = {
+ 'card': card_number,
+ 'cvv': cvv, # [] NEVER store CVV
+ 'exp': exp_date
+ }
+ db.save(payment)
 ```
 
-**After** (✅ Compliant):
+**After** ([[]] Compliant):
 ```python
 def process_payment(card_number, exp_date):
-    # Use tokenization service (e.g., Stripe, Square)
-    token = payment_gateway.tokenize(card_number, exp_date)
-    
-    payment = {
-        'token': token,  # ✅ Store token, not card data
-        'exp': exp_date
-    }
-    db.save(payment)
+ # Use tokenization service (e.g., Stripe, Square)
+ token = payment_gateway.tokenize(card_number, exp_date)
+
+ payment = {
+ 'token': token, # [[]] Store token, not card data
+ 'exp': exp_date
+ }
+ db.save(payment)
 ```
 
 #### Example 2: Unencrypted PII (GDPR)
 
-**Before** (❌ Violates GDPR):
+**Before** ([] Violates GDPR):
 ```python
 def store_user(email, name):
-    user = {
-        'email': email,  # ❌ Plain text PII
-        'name': name
-    }
-    db.save(user)
+ user = {
+ 'email': email, # [] Plain text PII
+ 'name': name
+ }
+ db.save(user)
 ```
 
-**After** (✅ Compliant):
+**After** ([[]] Compliant):
 ```python
 from cryptography.fernet import Fernet
 
 def store_user(email, name):
-    cipher = Fernet(encryption_key)
-    
-    user = {
-        'email': cipher.encrypt(email.encode()),  # ✅ Encrypted
-        'name': cipher.encrypt(name.encode())
-    }
-    db.save(user)
+ cipher = Fernet(encryption_key)
+
+ user = {
+ 'email': cipher.encrypt(email.encode()), # [[]] Encrypted
+ 'name': cipher.encrypt(name.encode())
+ }
+ db.save(user)
 ```
 
 #### Example 3: Missing Access Controls (HIPAA)
 
-**Before** (❌ Violates HIPAA):
+**Before** ([] Violates HIPAA):
 ```python
 @app.route('/patient/<patient_id>')
 def get_patient(patient_id):
-    return db.query(f"SELECT * FROM patients WHERE id={patient_id}")
+ return db.query(f"SELECT * FROM patients WHERE id={patient_id}")
 ```
 
-**After** (✅ Compliant):
+**After** ([[]] Compliant):
 ```python
 @app.route('/patient/<patient_id>')
-@require_auth  # ✅ Authentication required
-@require_role('healthcare_provider')  # ✅ Authorization check
-@audit_log  # ✅ Audit logging
+@require_auth # [[]] Authentication required
+@require_role('healthcare_provider') # [[]] Authorization check
+@audit_log # [[]] Audit logging
 def get_patient(patient_id):
-    # Use parameterized queries (prevents SQL injection)
-    return db.query_secure("SELECT * FROM patients WHERE id=?", patient_id)
+ # Use parameterized queries (prevents SQL injection)
+ return db.query_secure("SELECT * FROM patients WHERE id=?", patient_id)
 ```
 
 ### Step 4: Re-scan
@@ -507,14 +507,14 @@ Create a remediation log:
 
 ```python
 payload = {
-    "code": code_sample,
-    "scan_type": "comprehensive",
-    "options": {
-        "include_remediation": True,  # Get AI remediation
-        "severity_filter": "critical",  # Only critical violations
-        "max_violations": 10,  # Limit results
-        "detailed_analysis": True  # Verbose output
-    }
+ "code": code_sample,
+ "scan_type": "comprehensive",
+ "options": {
+ "include_remediation": True, # Get AI remediation
+ "severity_filter": "critical", # Only critical violations
+ "max_violations": 10, # Limit results
+ "detailed_analysis": True # Verbose output
+ }
 }
 ```
 
@@ -526,16 +526,16 @@ Scan multiple files:
 files = ['app.py', 'models.py', 'views.py']
 
 for file in files:
-    with open(file, 'r') as f:
-        code = f.read()
-    
-    response = requests.post(url, json={
-        "code": code,
-        "scan_type": "comprehensive",
-        "target": file
-    })
-    
-    print(f"{file}: {response.json()['analysis']['compliance_score']}")
+ with open(file, 'r') as f:
+ code = f.read()
+
+ response = requests.post(url, json={
+ "code": code,
+ "scan_type": "comprehensive",
+ "target": file
+ })
+
+ print(f"{file}: {response.json()['analysis']['compliance_score']}")
 ```
 
 ### 3. CI/CD Integration
@@ -548,22 +548,22 @@ name: Compliance Scan
 on: [push, pull_request]
 
 jobs:
-  scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: Scan for violations
-        run: |
-          python examples/basic_scan.py
-          
-      - name: Check compliance score
-        run: |
-          SCORE=$(python get_score.py)
-          if [ $SCORE -lt 70 ]; then
-            echo "Compliance score too low: $SCORE"
-            exit 1
-          fi
+ scan:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v2
+
+ - name: Scan for violations
+ run: |
+ python examples/basic_scan.py
+
+ - name: Check compliance score
+ run: |
+ SCORE=$(python get_score.py)
+ if [ $SCORE -lt 70 ]; then
+ echo "Compliance score too low: $SCORE"
+ exit 1
+ fi
 ```
 
 ### 4. Custom Policies
@@ -572,15 +572,15 @@ Create custom compliance rules (advanced):
 
 ```python
 custom_policy = {
-    "name": "Company Security Policy",
-    "rules": [
-        {
-            "id": "CSP-001",
-            "pattern": "password.*=.*['\"].*['\"]",
-            "severity": "critical",
-            "message": "Hardcoded password detected"
-        }
-    ]
+ "name": "Company Security Policy",
+ "rules": [
+ {
+ "id": "CSP-001",
+ "pattern": "password.*=.*['\"].*['\"]",
+ "severity": "critical",
+ "message": "Hardcoded password detected"
+ }
+ ]
 }
 ```
 
@@ -621,9 +621,9 @@ import json
 
 # Validate JSON before sending
 try:
-    json.dumps(payload)
+ json.dumps(payload)
 except ValueError as e:
-    print(f"Invalid JSON: {e}")
+ print(f"Invalid JSON: {e}")
 ```
 
 ### Issue: "Low Compliance Score"
@@ -664,8 +664,8 @@ except ValueError as e:
 
 python examples/basic_scan.py
 if [ $? -ne 0 ]; then
-    echo "Compliance scan failed. Commit aborted."
-    exit 1
+ echo "Compliance scan failed. Commit aborted."
+ exit 1
 fi
 ```
 
@@ -706,11 +706,11 @@ Keep a compliance journal:
 
 ## Next Steps
 
-1. ✅ **Complete the demo**: Run `python demo.py`
-2. 📖 **Read API docs**: See `docs/API_DOCUMENTATION.md`
-3. 🏗️ **Understand architecture**: See `docs/ARCHITECTURE.md`
-4. 🚀 **Deploy your own**: See `DEPLOYMENT_SUMMARY.md`
-5. 🤝 **Contribute**: Submit issues and PRs
+1. [[]] **Complete the demo**: Run `python demo.py`
+2. **Read API docs**: See `docs/API_DOCUMENTATION.md`
+3. **Understand architecture**: See `docs/ARCHITECTURE.md`
+4. **Deploy your own**: See `DEPLOYMENT_SUMMARY.md`
+5. **Contribute**: Submit issues and PRs
 
 ---
 
@@ -764,4 +764,4 @@ python examples/generate_reports.py
 
 ---
 
-**Happy Scanning! 🚀**
+**Happy Scanning! **

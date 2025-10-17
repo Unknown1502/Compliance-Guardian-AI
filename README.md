@@ -1,6 +1,6 @@
 # Compliance Guardian AI
 
-> **Autonomous Compliance & Privacy Guardian Multi-Agent System**  
+> **Autonomous Compliance & Privacy Guardian Multi-Agent System** 
 > Powered by AWS Bedrock, Amazon Q, and Amazon Nova
 
 [![AWS](https://img.shields.io/badge/AWS-Bedrock-orange)](https://aws.amazon.com/bedrock/)
@@ -27,63 +27,57 @@ Compliance Guardian AI is an enterprise-grade, autonomous multi-agent system bui
 
 ```
 
-                   Agent Runtime & Gateway                    
-  - Task scheduling & load balancing                         
-  - Inter-agent communication                                
-  - Circuit breakers & rate limiting                         
+ Agent Runtime & Gateway 
+ - Task scheduling & load balancing 
+ - Inter-agent communication 
+ - Circuit breakers & rate limiting 
 
-                           
-        
-                                            
-             
-   Orchestr        Compliance         Audit   
-     ator            Agent           Agent    
-             
-                                            
-             
-   Remedia-       Explainabil-        Nova    
-     tion             ity               Act    
-             
+ Orchestr Compliance Audit 
+ ator Agent Agent 
+
+ Remedia- Explainabil- Nova 
+ tion ity Act 
+
 ```
 
 ### Components
 
 1. **Core Infrastructure**
-   - `bedrock_client.py`: AWS Bedrock AgentCore integration with Claude 3.5 Sonnet
-   - `agent_runtime.py`: Multi-agent orchestration and task management
-   - `agent_memory.py`: Redis-backed memory with semantic search
-   - `agent_gateway.py`: Message routing and agent communication
-   - `agent_identity.py`: JWT authentication and IAM integration
-   - `observability.py`: Prometheus metrics and CloudWatch logging
+ - `bedrock_client.py`: AWS Bedrock AgentCore integration with Claude 3.5 Sonnet
+ - `agent_runtime.py`: Multi-agent orchestration and task management
+ - `agent_memory.py`: Redis-backed memory with semantic search
+ - `agent_gateway.py`: Message routing and agent communication
+ - `agent_identity.py`: JWT authentication and IAM integration
+ - `observability.py`: Prometheus metrics and CloudWatch logging
 
 2. **Specialized Agents**
-   - `orchestrator_agent.py`: Workflow coordination and resource allocation
-   - `compliance_agent.py`: Multi-framework compliance scanning
-   - `audit_agent.py`: Report generation and regulatory submissions
-   - `remediation_agent.py`: Automated violation remediation
-   - `explainability_agent.py`: Multi-audience compliance explanations
+ - `orchestrator_agent.py`: Workflow coordination and resource allocation
+ - `compliance_agent.py`: Multi-framework compliance scanning
+ - `audit_agent.py`: Report generation and regulatory submissions
+ - `remediation_agent.py`: Automated violation remediation
+ - `explainability_agent.py`: Multi-audience compliance explanations
 
 3. **Compliance Scanners**
-   - `gdpr_scanner.py`: Article-by-article GDPR compliance checking
-   - `hipaa_scanner.py`: Administrative, physical, technical safeguards
-   - `pci_scanner.py`: 12 PCI DSS requirements validation
-   - `code_scanner.py`: Static code analysis for security/compliance
-   - `data_flow_scanner.py`: Cross-border data transfer analysis
+ - `gdpr_scanner.py`: Article-by-article GDPR compliance checking
+ - `hipaa_scanner.py`: Administrative, physical, technical safeguards
+ - `pci_scanner.py`: 12 PCI DSS requirements validation
+ - `code_scanner.py`: Static code analysis for security/compliance
+ - `data_flow_scanner.py`: Cross-border data transfer analysis
 
 4. **Remediation Systems**
-   - `pii_masker.py`: Tokenization, masking, format-preserving encryption
-   - `encryption_enforcer.py`: AWS resource encryption automation
-   - `consent_manager.py`: GDPR-compliant consent tracking
-   - `policy_injector.py`: IAM/S3/KMS policy deployment
+ - `pii_masker.py`: Tokenization, masking, format-preserving encryption
+ - `encryption_enforcer.py`: AWS resource encryption automation
+ - `consent_manager.py`: GDPR-compliant consent tracking
+ - `policy_injector.py`: IAM/S3/KMS policy deployment
 
 5. **RESTful API**
-   - `main.py`: FastAPI application with lifespan management
-   - `/agents`: Agent management and task submission
-   - `/scans`: Compliance scanning endpoints
-   - `/workflows`: Workflow execution and templates
-   - `/reports`: Report generation and download
-   - `/remediation`: Automated remediation and consent management
-   - `/health`: Health checks and metrics
+ - `main.py`: FastAPI application with lifespan management
+ - `/agents`: Agent management and task submission
+ - `/scans`: Compliance scanning endpoints
+ - `/workflows`: Workflow execution and templates
+ - `/reports`: Report generation and download
+ - `/remediation`: Automated remediation and consent management
+ - `/health`: Health checks and metrics
 
 ## Technology Stack
 
@@ -112,7 +106,7 @@ cd compliance-guardian-ai
 
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
@@ -168,23 +162,23 @@ python -m src.api.main
 
 ```bash
 curl -X POST "http://localhost:8000/api/v1/workflows/execute" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "workflow_type": "gdpr_compliance_check",
-    "parameters": {
-      "resource_ids": ["s3://my-bucket"],
-      "scope": "full"
-    }
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "workflow_type": "gdpr_compliance_check",
+ "parameters": {
+ "resource_ids": ["s3://my-bucket"],
+ "scope": "full"
+ }
+ }'
 ```
 
 Response:
 ```json
 {
-  "workflow_id": "wf_123456",
-  "workflow_type": "gdpr_compliance_check",
-  "status": "started",
-  "timestamp": "2024-01-15T10:30:00Z"
+ "workflow_id": "wf_123456",
+ "workflow_type": "gdpr_compliance_check",
+ "status": "started",
+ "timestamp": "2024-01-15T10:30:00Z"
 }
 ```
 
@@ -192,52 +186,52 @@ Response:
 
 ```bash
 curl -X POST "http://localhost:8000/api/v1/scans/code" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "repository_url": "https://github.com/org/repo",
-    "branch": "main"
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "repository_url": "https://github.com/org/repo",
+ "branch": "main"
+ }'
 ```
 
 ### 3. Generate Audit Report
 
 ```bash
 curl -X POST "http://localhost:8000/api/v1/reports/generate" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "report_type": "audit",
-    "framework": "gdpr",
-    "format": "pdf"
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "report_type": "audit",
+ "framework": "gdpr",
+ "format": "pdf"
+ }'
 ```
 
 ### 4. Mask PII Data
 
 ```bash
 curl -X POST "http://localhost:8000/api/v1/remediation/pii/mask" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "data": {
-      "email": "user@example.com",
-      "ssn": "123-45-6789",
-      "name": "John Doe"
-    },
-    "strategy": "tokenize"
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "data": {
+ "email": "user@example.com",
+ "ssn": "123-45-6789",
+ "name": "John Doe"
+ },
+ "strategy": "tokenize"
+ }'
 ```
 
 Response:
 ```json
 {
-  "masked_data": {
-    "email": "u***@example.com",
-    "ssn": "TOK_a1b2c3d4",
-    "name": "J*** D***"
-  },
-  "masking_report": {
-    "total_masked": 3,
-    "reversible_count": 1
-  }
+ "masked_data": {
+ "email": "u***@example.com",
+ "ssn": "TOK_a1b2c3d4",
+ "name": "J*** D***"
+ },
+ "masking_report": {
+ "total_masked": 3,
+ "reversible_count": 1
+ }
 }
 ```
 
@@ -245,11 +239,11 @@ Response:
 
 ```bash
 curl -X POST "http://localhost:8000/api/v1/remediation/encryption/enforce" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "resource_type": "s3",
-    "resource_ids": ["my-bucket-1", "my-bucket-2"]
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "resource_type": "s3",
+ "resource_ids": ["my-bucket-1", "my-bucket-2"]
+ }'
 ```
 
 ## Agent Capabilities
@@ -334,9 +328,9 @@ CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```bash
 docker build -t compliance-guardian-ai .
 docker run -p 8000:8000 \
-  -e AWS_REGION=us-east-1 \
-  -e REDIS_URL=redis://redis:6379 \
-  compliance-guardian-ai
+ -e AWS_REGION=us-east-1 \
+ -e REDIS_URL=redis://redis:6379 \
+ compliance-guardian-ai
 ```
 
 ### Kubernetes
@@ -345,35 +339,35 @@ docker run -p 8000:8000 \
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: compliance-guardian
+ name: compliance-guardian
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: compliance-guardian
-  template:
-    metadata:
-      labels:
-        app: compliance-guardian
-    spec:
-      containers:
-      - name: api
-        image: compliance-guardian-ai:latest
-        ports:
-        - containerPort: 8000
-        env:
-        - name: AWS_REGION
-          value: us-east-1
-        - name: REDIS_URL
-          value: redis://redis:6379
-        livenessProbe:
-          httpGet:
-            path: /api/v1/health/live
-            port: 8000
-        readinessProbe:
-          httpGet:
-            path: /api/v1/health/ready
-            port: 8000
+ replicas: 3
+ selector:
+ matchLabels:
+ app: compliance-guardian
+ template:
+ metadata:
+ labels:
+ app: compliance-guardian
+ spec:
+ containers:
+ - name: api
+ image: compliance-guardian-ai:latest
+ ports:
+ - containerPort: 8000
+ env:
+ - name: AWS_REGION
+ value: us-east-1
+ - name: REDIS_URL
+ value: redis://redis:6379
+ livenessProbe:
+ httpGet:
+ path: /api/v1/health/live
+ port: 8000
+ readinessProbe:
+ httpGet:
+ path: /api/v1/health/ready
+ port: 8000
 ```
 
 ### AWS ECS/Fargate
@@ -458,5 +452,5 @@ Apache License 2.0 - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Built for AWS AI Agent Global Hackathon 2024**  
+**Built for AWS AI Agent Global Hackathon 2024** 
 *Securing compliance, protecting privacy, powered by AWS*

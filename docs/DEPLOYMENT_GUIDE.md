@@ -4,8 +4,8 @@
 
 This guide walks you through deploying Compliance Guardian AI to AWS from scratch.
 
-**Deployment Time**: ~30 minutes  
-**Cost**: ~$20-50/month (based on usage)  
+**Deployment Time**: ~30 minutes 
+**Cost**: ~$20-50/month (based on usage) 
 **Prerequisites**: AWS account with admin access
 
 ---
@@ -27,11 +27,11 @@ This guide walks you through deploying Compliance Guardian AI to AWS from scratc
 
 Before starting, ensure you have:
 
-- ✅ AWS account with admin privileges
-- ✅ Python 3.11+ installed
-- ✅ AWS CLI installed and configured
-- ✅ Git installed
-- ✅ Basic understanding of AWS services
+- [[]] AWS account with admin privileges
+- [[]] Python 3.11+ installed
+- [[]] AWS CLI installed and configured
+- [[]] Git installed
+- [[]] Basic understanding of AWS services
 
 ### Install AWS CLI
 
@@ -80,9 +80,9 @@ aws sts get-caller-identity
 Expected output:
 ```json
 {
-    "UserId": "AIDAI...",
-    "Account": "943598056704",
-    "Arn": "arn:aws:iam::943598056704:user/your-username"
+ "UserId": "AIDAI...",
+ "Account": "943598056704",
+ "Arn": "arn:aws:iam::943598056704:user/your-username"
 }
 ```
 
@@ -120,8 +120,8 @@ If automated script fails:
 2. Navigate to **Model access**
 3. Click **Request model access**
 4. Select:
-   - ✅ Amazon Nova Pro
-   - ✅ Claude 3.5 Sonnet v2
+ - [[]] Amazon Nova Pro
+ - [[]] Claude 3.5 Sonnet v2
 5. Agree to terms and submit
 
 **Note**: Model access approval is usually instant but can take up to 24 hours.
@@ -134,8 +134,8 @@ python test_bedrock.py
 
 Expected output:
 ```
-✅ Amazon Nova Pro: Available
-✅ Claude 3.5 Sonnet v2: Available
+[[]] Amazon Nova Pro: Available
+[[]] Claude 3.5 Sonnet v2: Available
 ```
 
 ### Step 4: Submit Anthropic Form (if using Claude)
@@ -159,12 +159,12 @@ python deploy_windows.py
 ```
 
 This script handles:
-- ✅ IAM role creation
-- ✅ DynamoDB table setup
-- ✅ S3 bucket creation
-- ✅ Lambda function deployment
-- ✅ API Gateway configuration
-- ✅ CloudWatch logging setup
+- [[]] IAM role creation
+- [[]] DynamoDB table setup
+- [[]] S3 bucket creation
+- [[]] Lambda function deployment
+- [[]] API Gateway configuration
+- [[]] CloudWatch logging setup
 
 ### Option 2: Manual Deployment
 
@@ -172,20 +172,20 @@ This script handles:
 
 ```bash
 aws iam create-role \
-  --role-name ComplianceScanExecutionRole \
-  --assume-role-policy-document file://infrastructure/iam/trust-policy.json
+ --role-name ComplianceScanExecutionRole \
+ --assume-role-policy-document file://infrastructure/iam/trust-policy.json
 ```
 
 Attach policies:
 ```bash
 aws iam attach-role-policy \
-  --role-name ComplianceScanExecutionRole \
-  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+ --role-name ComplianceScanExecutionRole \
+ --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 
 aws iam put-role-policy \
-  --role-name ComplianceScanExecutionRole \
-  --policy-name BedrockAccess \
-  --policy-document file://infrastructure/iam/bedrock-policy.json
+ --role-name ComplianceScanExecutionRole \
+ --policy-name BedrockAccess \
+ --policy-document file://infrastructure/iam/bedrock-policy.json
 ```
 
 #### Step 2: Create DynamoDB Tables
@@ -241,9 +241,9 @@ Creates REST API with:
 
 ```bash
 aws cloudformation create-stack \
-  --stack-name compliance-guardian \
-  --template-body file://infrastructure/cloudformation/main.yaml \
-  --capabilities CAPABILITY_IAM
+ --stack-name compliance-guardian \
+ --template-body file://infrastructure/cloudformation/main.yaml \
+ --capabilities CAPABILITY_IAM
 ```
 
 Monitor deployment:
@@ -267,30 +267,30 @@ cd ..
 
 ```bash
 aws lambda update-function-code \
-  --function-name compliance-scan-handler \
-  --zip-file fileb://lambda.zip
+ --function-name compliance-scan-handler \
+ --zip-file fileb://lambda.zip
 ```
 
 ### Step 3: Configure Environment Variables
 
 ```bash
 aws lambda update-function-configuration \
-  --function-name compliance-scan-handler \
-  --environment Variables="{
-    MODEL_ID=us.amazon.nova-pro-v1:0,
-    FALLBACK_MODEL_ID=us.anthropic.claude-3-5-sonnet-20241022-v2:0,
-    DYNAMODB_TABLE=compliance_scans,
-    LOG_LEVEL=INFO
-  }"
+ --function-name compliance-scan-handler \
+ --environment Variables="{
+ MODEL_ID=us.amazon.nova-pro-v1:0,
+ FALLBACK_MODEL_ID=us.anthropic.claude-3-5-sonnet-20241022-v2:0,
+ DYNAMODB_TABLE=compliance_scans,
+ LOG_LEVEL=INFO
+ }"
 ```
 
 ### Step 4: Set Memory and Timeout
 
 ```bash
 aws lambda update-function-configuration \
-  --function-name compliance-scan-handler \
-  --memory-size 2048 \
-  --timeout 300
+ --function-name compliance-scan-handler \
+ --memory-size 2048 \
+ --timeout 300
 ```
 
 ---
@@ -312,11 +312,11 @@ https://{api-id}.execute-api.us-east-1.amazonaws.com/production
 
 ```bash
 curl -X POST https://YOUR-API-ENDPOINT/scan \
-  -H "Content-Type: application/json" \
-  -d '{
-    "code": "def process_payment(card, cvv): db.save({\"card\": card, \"cvv\": cvv})",
-    "scan_type": "pci-dss"
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "code": "def process_payment(card, cvv): db.save({\"card\": card, \"cvv\": cvv})",
+ "scan_type": "pci-dss"
+ }'
 ```
 
 ### Step 3: Test with Python Script
@@ -327,11 +327,11 @@ python test_scan_endpoint.py
 
 Expected output:
 ```
-✅ API Endpoint: https://...
-✅ Status Code: 200
-✅ Scan ID: scan-20251017-...
-✅ Violations Found: 2
-✅ Compliance Score: 45
+[[]] API Endpoint: https://...
+[[]] Status Code: 200
+[[]] Scan ID: scan-20251017-...
+[[]] Violations Found: 2
+[[]] Compliance Score: 45
 ```
 
 ### Step 4: Run Complete Workflow Test
@@ -341,11 +341,11 @@ python test_complete_workflow.py
 ```
 
 This tests:
-- ✅ GDPR scan
-- ✅ HIPAA scan
-- ✅ PCI-DSS scan
-- ✅ Comprehensive scan
-- ✅ Report generation
+- [[]] GDPR scan
+- [[]] HIPAA scan
+- [[]] PCI-DSS scan
+- [[]] Comprehensive scan
+- [[]] Report generation
 
 ---
 
@@ -357,12 +357,12 @@ Edit `infrastructure_config.json`:
 
 ```json
 {
-  "api_endpoint": "https://YOUR-API-ENDPOINT/production/scan",
-  "region": "us-east-1",
-  "account_id": "YOUR-ACCOUNT-ID",
-  "lambda_functions": {
-    "scan_handler": "compliance-scan-handler"
-  }
+ "api_endpoint": "https://YOUR-API-ENDPOINT/production/scan",
+ "region": "us-east-1",
+ "account_id": "YOUR-ACCOUNT-ID",
+ "lambda_functions": {
+ "scan_handler": "compliance-scan-handler"
+ }
 }
 ```
 
@@ -370,15 +370,15 @@ Edit `infrastructure_config.json`:
 
 ```bash
 aws cloudwatch put-metric-alarm \
-  --alarm-name compliance-scan-errors \
-  --comparison-operator GreaterThanThreshold \
-  --evaluation-periods 2 \
-  --metric-name Errors \
-  --namespace AWS/Lambda \
-  --period 300 \
-  --statistic Sum \
-  --threshold 5 \
-  --alarm-description "Alert on Lambda errors"
+ --alarm-name compliance-scan-errors \
+ --comparison-operator GreaterThanThreshold \
+ --evaluation-periods 2 \
+ --metric-name Errors \
+ --namespace AWS/Lambda \
+ --period 300 \
+ --statistic Sum \
+ --threshold 5 \
+ --alarm-description "Alert on Lambda errors"
 ```
 
 ### Step 3: Set Up SNS Notifications (Optional)
@@ -387,18 +387,18 @@ aws cloudwatch put-metric-alarm \
 aws sns create-topic --name compliance-alerts
 
 aws sns subscribe \
-  --topic-arn arn:aws:sns:us-east-1:YOUR-ACCOUNT:compliance-alerts \
-  --protocol email \
-  --notification-endpoint your-email@example.com
+ --topic-arn arn:aws:sns:us-east-1:YOUR-ACCOUNT:compliance-alerts \
+ --protocol email \
+ --notification-endpoint your-email@example.com
 ```
 
 ### Step 4: Enable API Gateway Logging
 
 ```bash
 aws apigateway update-stage \
-  --rest-api-id YOUR-API-ID \
-  --stage-name production \
-  --patch-operations op=replace,path=/accessLogSettings/destinationArn,value=arn:aws:logs:us-east-1:YOUR-ACCOUNT:log-group:api-gateway-logs
+ --rest-api-id YOUR-API-ID \
+ --stage-name production \
+ --patch-operations op=replace,path=/accessLogSettings/destinationArn,value=arn:aws:logs:us-east-1:YOUR-ACCOUNT:log-group:api-gateway-logs
 ```
 
 ### Step 5: Configure CORS (if needed)
@@ -460,8 +460,8 @@ aws logs tail /aws/lambda/compliance-scan-handler --follow
 Filter errors:
 ```bash
 aws logs filter-log-events \
-  --log-group-name /aws/lambda/compliance-scan-handler \
-  --filter-pattern "ERROR"
+ --log-group-name /aws/lambda/compliance-scan-handler \
+ --filter-pattern "ERROR"
 ```
 
 ### Regular Maintenance Tasks
@@ -494,8 +494,8 @@ aws logs filter-log-events \
 **Solution**:
 ```bash
 aws lambda update-function-configuration \
-  --function-name compliance-scan-handler \
-  --timeout 300
+ --function-name compliance-scan-handler \
+ --timeout 300
 ```
 
 ### Issue: Bedrock Access Denied
@@ -514,8 +514,8 @@ aws lambda update-function-configuration \
 **Solution**:
 ```bash
 aws dynamodb update-table \
-  --table-name compliance_scans \
-  --billing-mode PAY_PER_REQUEST
+ --table-name compliance_scans \
+ --billing-mode PAY_PER_REQUEST
 ```
 
 ### Issue: API Gateway 502 Error
@@ -528,9 +528,9 @@ aws dynamodb update-table \
 3. Test Lambda directly:
 ```bash
 aws lambda invoke \
-  --function-name compliance-scan-handler \
-  --payload '{"code": "test"}' \
-  response.json
+ --function-name compliance-scan-handler \
+ --payload '{"code": "test"}' \
+ response.json
 ```
 
 ### Issue: High Costs
@@ -570,8 +570,8 @@ python switch_to_nova.py --model claude
 Or update environment variable:
 ```bash
 aws lambda update-function-configuration \
-  --function-name compliance-scan-handler \
-  --environment Variables="{MODEL_ID=us.anthropic.claude-3-5-sonnet-20241022-v2:0}"
+ --function-name compliance-scan-handler \
+ --environment Variables="{MODEL_ID=us.anthropic.claude-3-5-sonnet-20241022-v2:0}"
 ```
 
 ---
@@ -584,17 +584,17 @@ If deployment fails:
 
 ```bash
 aws lambda update-function-code \
-  --function-name compliance-scan-handler \
-  --s3-bucket compliance-lambda-backups \
-  --s3-key backups/lambda-v1.0.zip
+ --function-name compliance-scan-handler \
+ --s3-bucket compliance-lambda-backups \
+ --s3-key backups/lambda-v1.0.zip
 ```
 
 ### Rollback CloudFormation
 
 ```bash
 aws cloudformation update-stack \
-  --stack-name compliance-guardian \
-  --use-previous-template
+ --stack-name compliance-guardian \
+ --use-previous-template
 ```
 
 ### Rollback Database
@@ -602,9 +602,9 @@ aws cloudformation update-stack \
 DynamoDB point-in-time recovery:
 ```bash
 aws dynamodb restore-table-to-point-in-time \
-  --source-table-name compliance_scans \
-  --target-table-name compliance_scans_restored \
-  --restore-date-time 2025-10-17T12:00:00Z
+ --source-table-name compliance_scans \
+ --target-table-name compliance_scans_restored \
+ --restore-date-time 2025-10-17T12:00:00Z
 ```
 
 ---
@@ -622,13 +622,13 @@ python configure_api_auth.py
 Use least-privilege principle:
 ```json
 {
-  "Effect": "Allow",
-  "Action": [
-    "bedrock:InvokeModel"
-  ],
-  "Resource": [
-    "arn:aws:bedrock:us-east-1::foundation-model/us.amazon.nova-pro-v1:0"
-  ]
+ "Effect": "Allow",
+ "Action": [
+ "bedrock:InvokeModel"
+ ],
+ "Resource": [
+ "arn:aws:bedrock:us-east-1::foundation-model/us.amazon.nova-pro-v1:0"
+ ]
 }
 ```
 
@@ -636,25 +636,25 @@ Use least-privilege principle:
 
 ```bash
 aws lambda update-function-configuration \
-  --function-name compliance-scan-handler \
-  --vpc-config SubnetIds=subnet-xxx,SecurityGroupIds=sg-xxx
+ --function-name compliance-scan-handler \
+ --vpc-config SubnetIds=subnet-xxx,SecurityGroupIds=sg-xxx
 ```
 
 ### 4. Enable CloudTrail
 
 ```bash
 aws cloudtrail create-trail \
-  --name compliance-audit-trail \
-  --s3-bucket-name compliance-audit-logs
+ --name compliance-audit-trail \
+ --s3-bucket-name compliance-audit-logs
 ```
 
 ### 5. Encrypt Environment Variables
 
 ```bash
 aws lambda update-function-configuration \
-  --function-name compliance-scan-handler \
-  --environment Variables="{...}" \
-  --kms-key-arn arn:aws:kms:us-east-1:YOUR-ACCOUNT:key/YOUR-KMS-KEY
+ --function-name compliance-scan-handler \
+ --environment Variables="{...}" \
+ --kms-key-arn arn:aws:kms:us-east-1:YOUR-ACCOUNT:key/YOUR-KMS-KEY
 ```
 
 ---
@@ -678,8 +678,8 @@ python setup_multi_region.py
 
 ```bash
 aws dynamodb create-global-table \
-  --global-table-name compliance_scans \
-  --replication-group RegionName=us-east-1 RegionName=eu-west-1
+ --global-table-name compliance_scans \
+ --replication-group RegionName=us-east-1 RegionName=eu-west-1
 ```
 
 ---
@@ -716,11 +716,11 @@ Tests:
 
 After successful deployment:
 
-1. ✅ **Test thoroughly**: Run `test_complete_workflow.py`
-2. 📊 **Set up monitoring**: Configure CloudWatch dashboard
-3. 🔔 **Enable alerts**: Set up SNS notifications
-4. 📖 **Update docs**: Document your specific configuration
-5. 🎯 **Run demos**: Test with `demo.py` and `demo_animated.py`
+1. [[]] **Test thoroughly**: Run `test_complete_workflow.py`
+2. **Set up monitoring**: Configure CloudWatch dashboard
+3. **Enable alerts**: Set up SNS notifications
+4. **Update docs**: Document your specific configuration
+5. **Run demos**: Test with `demo.py` and `demo_animated.py`
 
 ---
 
@@ -751,6 +751,6 @@ After successful deployment:
 
 ---
 
-**Deployment Complete! 🚀**
+**Deployment Complete! **
 
 Your Compliance Guardian AI system is now live and ready to scan for violations!
