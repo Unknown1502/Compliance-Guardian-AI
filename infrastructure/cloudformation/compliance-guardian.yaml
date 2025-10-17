@@ -1,0 +1,269 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Compliance Guardian AI - AWS Infrastructure'
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: production
+    AllowedValues:
+      - development
+      - staging
+      - production
+    Description: Environment name
+
+  BedrockModelId:
+    Type: String
+    Default: anthropic.claude-3-5-sonnet-20241022-v2:0
+    Description: Bedrock model ID
+
+Resources:
+  # DynamoDB Table for Agent Memory
+  AgentMemoryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub '${EnvironmentName}-compliance-guardian-memory'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: agent_id
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: N
+      KeySchema:
+        - AttributeName: agent_id
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      SSESpecification:
+        SSEEnabled: true
+        SSEType: KMS
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Application
+          Value: ComplianceGuardianAI
+
+  # KMS Key for Encryption
+  EncryptionKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: KMS key for Compliance Guardian AI encryption
+      KeyPolicy:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action: 'kms:*'
+            Resource: '*'
+          - Sid: Allow services to use the key
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - dynamodb.amazonaws.com
+                - s3.amazonaws.com
+            Action:
+              - 'kms:Decrypt'
+              - 'kms:Encrypt'
+              - 'kms:GenerateDataKey'
+            Resource: '*'
+
+  EncryptionKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: !Sub 'alias/${EnvironmentName}-compliance-guardian'
+      TargetKeyId: !Ref EncryptionKey
+
+  # S3 Bucket for Reports
+  ReportsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${EnvironmentName}-compliance-guardian-reports-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: aws:kms
+              KMSMasterKeyID: !GetAtt EncryptionKey.Arn
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldReports
+            Status: Enabled
+            ExpirationInDays: 2555
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Application
+          Value: ComplianceGuardianAI
+
+  # CloudWatch Log Group
+  ApplicationLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/compliance-guardian/${EnvironmentName}'
+      RetentionInDays: 30
+
+  # IAM Role for Lambda Functions
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${EnvironmentName}-compliance-guardian-lambda-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: ComplianceGuardianPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'bedrock:InvokeModel'
+                  - 'bedrock:InvokeAgent'
+                  - 'bedrock:InvokeModelWithResponseStream'
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:PutItem'
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:UpdateItem'
+                  - 'dynamodb:Query'
+                  - 'dynamodb:Scan'
+                Resource: !GetAtt AgentMemoryTable.Arn
+              - Effect: Allow
+                Action:
+                  - 's3:PutObject'
+                  - 's3:GetObject'
+                  - 's3:ListBucket'
+                Resource:
+                  - !GetAtt ReportsBucket.Arn
+                  - !Sub '${ReportsBucket.Arn}/*'
+              - Effect: Allow
+                Action:
+                  - 'kms:Decrypt'
+                  - 'kms:Encrypt'
+                  - 'kms:GenerateDataKey'
+                Resource: !GetAtt EncryptionKey.Arn
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: !GetAtt ApplicationLogGroup.Arn
+
+  # EventBridge Rule for Scheduled Scans
+  ScheduledScanRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub '${EnvironmentName}-compliance-guardian-scheduled-scan'
+      Description: Trigger daily compliance scan
+      ScheduleExpression: 'rate(1 day)'
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt ComplianceScanFunction.Arn
+          Id: ComplianceScanTarget
+
+  # Lambda Function for Compliance Scanning
+  ComplianceScanFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub '${EnvironmentName}-compliance-guardian-scan'
+      Runtime: python3.11
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 900
+      MemorySize: 2048
+      Environment:
+        Variables:
+          DYNAMODB_TABLE: !Ref AgentMemoryTable
+          REPORTS_BUCKET: !Ref ReportsBucket
+          KMS_KEY_ID: !GetAtt EncryptionKey.Arn
+          BEDROCK_MODEL_ID: !Ref BedrockModelId
+          ENVIRONMENT: !Ref EnvironmentName
+      Code:
+        ZipFile: |
+          def handler(event, context):
+              print("Compliance scan triggered")
+              # Implementation would go here
+              return {"statusCode": 200, "body": "Scan initiated"}
+
+  # Permission for EventBridge to invoke Lambda
+  ScheduledScanPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref ComplianceScanFunction
+      Action: 'lambda:InvokeFunction'
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt ScheduledScanRule.Arn
+
+  # SNS Topic for Alerts
+  AlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub '${EnvironmentName}-compliance-guardian-alerts'
+      DisplayName: Compliance Guardian Alerts
+      KmsMasterKeyId: !Ref EncryptionKey
+
+  # CloudWatch Alarm for Critical Violations
+  CriticalViolationAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub '${EnvironmentName}-compliance-critical-violations'
+      AlarmDescription: Alert on critical compliance violations
+      MetricName: CriticalViolations
+      Namespace: ComplianceGuardianAI
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 1
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      AlarmActions:
+        - !Ref AlertTopic
+
+Outputs:
+  DynamoDBTableName:
+    Description: DynamoDB table for agent memory
+    Value: !Ref AgentMemoryTable
+    Export:
+      Name: !Sub '${EnvironmentName}-compliance-guardian-dynamodb-table'
+
+  ReportsBucketName:
+    Description: S3 bucket for compliance reports
+    Value: !Ref ReportsBucket
+    Export:
+      Name: !Sub '${EnvironmentName}-compliance-guardian-reports-bucket'
+
+  KMSKeyId:
+    Description: KMS key for encryption
+    Value: !GetAtt EncryptionKey.Arn
+    Export:
+      Name: !Sub '${EnvironmentName}-compliance-guardian-kms-key'
+
+  LambdaRoleArn:
+    Description: IAM role for Lambda functions
+    Value: !GetAtt LambdaExecutionRole.Arn
+    Export:
+      Name: !Sub '${EnvironmentName}-compliance-guardian-lambda-role'
+
+  SNSTopicArn:
+    Description: SNS topic for alerts
+    Value: !Ref AlertTopic
+    Export:
+      Name: !Sub '${EnvironmentName}-compliance-guardian-sns-topic'
