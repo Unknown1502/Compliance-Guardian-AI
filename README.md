@@ -116,6 +116,7 @@ export AWS_REGION=us-east-1
 export AWS_BEDROCK_AGENT_ID=your-agent-id
 export REDIS_URL=redis://localhost:6379
 export JWT_SECRET_KEY=your-secret-key
+export AMAZON_Q_APPLICATION_ID=your-q-app-id  # For Amazon Q integration
 ```
 
 ### Configuration
@@ -127,6 +128,11 @@ Create `.env` file:
 AWS_REGION=us-east-1
 AWS_BEDROCK_AGENT_ID=your-agent-id
 AWS_BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20241022-v2:0
+
+# Amazon Q Configuration (for compliance intelligence)
+AMAZON_Q_APPLICATION_ID=your-application-id
+AMAZON_Q_INDEX_ID=your-index-id  # optional
+AMAZON_Q_MOCK=false  # Set to true for testing without AWS
 
 # Redis
 REDIS_URL=redis://localhost:6379
@@ -155,6 +161,72 @@ python -m src.api.main
 # API available at: http://localhost:8000
 # Docs available at: http://localhost:8000/docs
 ```
+
+## Amazon Q Integration
+
+The project now includes a complete Amazon Q client for compliance intelligence:
+
+### Quick Start with Amazon Q
+
+```python
+from src.amazon_q import AmazonQClient, query_compliance
+
+# Quick query using convenience function
+response = query_compliance(
+    query="What are GDPR requirements for data encryption?",
+    framework="GDPR",
+    mock=True  # Use mock mode for testing
+)
+
+print(response.get_guidance())
+```
+
+### Using the Client
+
+```python
+from src.amazon_q import AmazonQClient, AmazonQConfig
+
+# Create client
+config = AmazonQConfig.from_env()  # Load from environment
+client = AmazonQClient(config)
+
+# Query compliance guidance
+response = client.query_compliance(
+    query="How to implement HIPAA audit logging?",
+    framework="HIPAA"
+)
+
+# Get policy interpretation
+interpretation = client.get_policy_interpretation(
+    policy_text="All PHI must be encrypted at rest",
+    framework="HIPAA"
+)
+
+# Check specific requirement
+result = client.check_requirement(
+    requirement="Enable MFA for admin access",
+    framework="PCI-DSS"
+)
+
+# Get remediation guidance
+guidance = client.get_remediation_guidance(
+    violation="S3 bucket not encrypted",
+    framework="GDPR"
+)
+```
+
+### Running Examples
+
+```bash
+# Run all Amazon Q examples
+python examples/amazon_q_usage.py
+
+# Set mock mode for testing
+set AMAZON_Q_MOCK=true
+python examples/amazon_q_usage.py
+```
+
+See `src/amazon_q/README.md` for detailed documentation and `examples/amazon_q_usage.py` for more examples.
 
 ## API Usage
 
