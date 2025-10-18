@@ -381,66 +381,6 @@ curl -X POST "http://localhost:8000/api/v1/remediation/encryption/enforce" \
 - Network monitoring and testing
 - Information security policy
 
-## Deployment
-
-### Docker
-
-```dockerfile
-FROM python:3.11-slim
-
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
-```bash
-docker build -t compliance-guardian-ai .
-docker run -p 8000:8000 \
- -e AWS_REGION=us-east-1 \
- -e REDIS_URL=redis://redis:6379 \
- compliance-guardian-ai
-```
-
-### Kubernetes
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
- name: compliance-guardian
-spec:
- replicas: 3
- selector:
- matchLabels:
- app: compliance-guardian
- template:
- metadata:
- labels:
- app: compliance-guardian
- spec:
- containers:
- - name: api
- image: compliance-guardian-ai:latest
- ports:
- - containerPort: 8000
- env:
- - name: AWS_REGION
- value: us-east-1
- - name: REDIS_URL
- value: redis://redis:6379
- livenessProbe:
- httpGet:
- path: /api/v1/health/live
- port: 8000
- readinessProbe:
- httpGet:
- path: /api/v1/health/ready
- port: 8000
-```
 
 ### AWS ECS/Fargate
 
@@ -510,7 +450,8 @@ Apache License 2.0 - see [LICENSE](LICENSE) file for details.
 
 - Documentation: `/docs`
 - Issues: GitHub Issues
-- Email: support@compliance-guardian.ai
+- Email: prajwalsutar116@gmail.com ;
+         nikhiltale710@gmail.com
 
 ## Project Statistics
 
